@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CustomerInputDto } from './dto/customer.dto';
 import { CustomerRepository } from './customer.repository';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -36,5 +36,24 @@ export class CustomerService {
         mobile: [FilterOperator.EQ],
       },
     });
+  }
+
+  async getCustomerById(id: number): Promise<Customer> {
+    const task = await this.repo.findOne({
+      where: { id },
+    });
+    if (!task) {
+      throw new NotFoundException(`Customer with ID ${id} not found`);
+    }
+    return task;
+  }
+
+  async deleteCustomer(id: number): Promise<Customer> {
+    const customer = await this.getCustomerById(id);
+    const result = await this.repo.delete({ id });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Customer with ID ${id} not found`);
+    }
+    return customer;
   }
 }

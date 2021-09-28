@@ -3,7 +3,10 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
@@ -26,5 +29,15 @@ export class CustomerController {
   @Get('all')
   getAll(@Paginate() query: PaginateQuery): Promise<Paginated<Customer>> {
     return this.service.getAll(query);
+  }
+
+  @Get('customer/:id')
+  getCustomerById(@Param('id', ParseIntPipe) id: number): Promise<Customer> {
+    return this.service.getCustomerById(id);
+  }
+
+  @Delete('delete/:id')
+  delete(@Param('id', ParseIntPipe) id: number): Promise<Customer> {
+    return this.service.deleteCustomer(id);
   }
 }
