@@ -14,6 +14,7 @@ import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
 import { CustomerInputDto } from './dto/customer.dto';
 import { Customer } from './entity/cusromer.model.entity';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { CustomerUpdateDto } from './dto/customer_update_dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('customer')
@@ -22,8 +23,17 @@ export class CustomerController {
 
   @Post('create')
   @FormDataRequest({ storage: FileSystemStoredFile, autoDeleteFile: false })
-  getHello(@Body() customerDto: CustomerInputDto): Promise<Customer> {
+  createCustomer(@Body() customerDto: CustomerInputDto): Promise<Customer> {
     return this.service.createCustomer(customerDto);
+  }
+
+  @Post('update/:id')
+  @FormDataRequest({ storage: FileSystemStoredFile, autoDeleteFile: false })
+  updateCustomer(
+    @Body() customerDto: CustomerUpdateDto,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Customer> {
+    return this.service.customerUpdate(customerDto, id);
   }
 
   @Get('all')

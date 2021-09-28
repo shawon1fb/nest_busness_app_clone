@@ -9,6 +9,8 @@ import {
   Paginated,
   PaginateQuery,
 } from 'nestjs-paginate';
+import { CustomerUpdateDto } from './dto/customer_update_dto';
+import { last } from 'rxjs';
 
 @Injectable()
 export class CustomerService {
@@ -36,6 +38,35 @@ export class CustomerService {
         mobile: [FilterOperator.EQ],
       },
     });
+  }
+
+  async customerUpdate(
+    customerDto: CustomerUpdateDto,
+    id: number,
+  ): Promise<Customer> {
+    const customer = await this.getCustomerById(id);
+    const {
+      firstName,
+      lastName,
+      email,
+      mobile,
+      company,
+      postalCode,
+      address,
+      avatar,
+    } = customerDto;
+    customer.firstName = firstName;
+    customer.lastName = lastName;
+    customer.email = email;
+    customer.mobile = mobile;
+    customer.company = company;
+    customer.address = address;
+    customer.postalCode = postalCode;
+    customer.avatar = avatar?.originalName;
+    await customer.save();
+    await customer.reload();
+
+    return customer;
   }
 
   async getCustomerById(id: number): Promise<Customer> {
