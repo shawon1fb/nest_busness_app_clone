@@ -6,7 +6,6 @@ import {
   NestjsFormDataConfigFactory,
 } from 'nestjs-form-data/dist/interfaces';
 import { FileSystemStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
-import { Customer } from './entity/cusromer.model.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerRepository } from './customer.repository';
 
