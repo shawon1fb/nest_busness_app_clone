@@ -4,6 +4,8 @@ import {
   PrimaryGeneratedColumn,
   BaseEntity,
   Unique,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import {
   IsEmail,
@@ -44,4 +46,20 @@ export class Customer extends BaseEntity {
   // @Exclude()
   @Column()
   avatar?: string;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public createdAt: Date;
+
+  /**
+   * DB last update time.
+   */
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updatedAt: Date;
 }
