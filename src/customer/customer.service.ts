@@ -10,7 +10,6 @@ import {
   PaginateQuery,
 } from 'nestjs-paginate';
 import { CustomerUpdateDto } from './dto/customer_update_dto';
-import { last } from 'rxjs';
 
 @Injectable()
 export class CustomerService {
@@ -70,6 +69,8 @@ export class CustomerService {
   }
 
   async getCustomerById(id: number): Promise<Customer> {
+    // throw new Error('Not implemented');
+
     const task = await this.repo.findOne({
       where: { id },
     });
