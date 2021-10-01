@@ -7,7 +7,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm-config';
-import { UsersModule } from './users/users.module';
+import { TaskModule } from './task/task.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     CustomerModule,
-    UsersModule,
+    TaskModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
