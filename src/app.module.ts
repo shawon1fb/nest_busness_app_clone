@@ -12,7 +12,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'tmp', 'nestjs-fd'),
+      rootPath: join(__dirname, '..', '..', 'tmp', 'nestjs-fd'),
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     CustomerModule,
