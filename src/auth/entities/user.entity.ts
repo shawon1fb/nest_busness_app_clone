@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
+import { Role } from '../enum/role.enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -38,6 +39,9 @@ export class User extends BaseEntity {
   //
   // @Column()
   // avatar?: string;
+
+  @Column({ default: Role.User })
+  roles: Role;
 
   @Exclude()
   @Column()

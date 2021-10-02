@@ -7,7 +7,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   // app.useGlobalFilters(new ServerErrorExceptionFilter());
-  // app.useGlobalFilters(new HttpExceptionFilter());
+  //  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(3000);
   console.log(`Application is running on: ${await app.getUrl()}`);

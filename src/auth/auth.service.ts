@@ -29,12 +29,14 @@ export class AuthService {
     return accessToken;
   }
 
-  async signIn(loginUserDto: LoginUserDto): Promise<{ accessToken: string }> {
-    const email = await this.repo.validateUserPassword(loginUserDto);
-    if (!email) {
+  async signIn(
+    loginUserDto: LoginUserDto,
+  ): Promise<{ accessToken: string; user }> {
+    const user = await this.repo.validateUserPassword(loginUserDto);
+    if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const accessToken = await this.generateToken(email);
-    return { accessToken };
+    const accessToken = await this.generateToken(user.email);
+    return { accessToken, user };
   }
 }

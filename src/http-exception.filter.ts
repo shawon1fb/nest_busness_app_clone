@@ -14,10 +14,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     // const request = ctx.getRequest<Request>();
     const status = exception?.getStatus();
+    //  console.log('HttpExceptionFilter = ', exception);
+
+    let d: { statusCode: number; message: string[]; error: string };
+    if (exception.getResponse() instanceof Object) {
+      console.log('ok ---');
+      const message = exception.getResponse();
+    }
 
     response.status(status).json({
       statusCode: status,
-      message: [exception?.message],
+      message: [exception.getResponse()],
     });
   }
 }
@@ -31,7 +38,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     console.log('NotFoundExceptionFilter');
     response.status(status).json({
       statusCode: status,
-      message: [exception?.message],
+      message: [exception?.getResponse()],
     });
   }
 }

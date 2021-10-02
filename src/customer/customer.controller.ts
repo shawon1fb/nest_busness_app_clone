@@ -8,13 +8,18 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileSystemStoredFile, FormDataRequest } from 'nestjs-form-data';
 import { CustomerInputDto } from './dto/customer.dto';
 import { Customer } from './entity/cusromer.model.entity';
-import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CustomerUpdateDto } from './dto/customer_update_dto';
+import { JwtAuthGuard } from '../auth/guard/jwt-guard';
+import { RolesGuard } from '../auth/guard/roles.guard';
+import { Roles } from '../auth/decorator/roles.decorator';
+import { Role } from '../auth/enum/role.enum';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('customer')
@@ -36,8 +41,13 @@ export class CustomerController {
     return this.service.customerUpdate(customerDto, id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.User)
   @Get('all')
-  getAll(@Paginate() query: PaginateQuery): Promise<Paginated<Customer>> {
+  getAll(
+    @Paginate() query: PaginateQuery,
+    // @GetUser() user: User, //: Promise<Paginated<Customer>>
+  ) {
     return this.service.getAll(query);
   }
 

@@ -8,6 +8,7 @@ import {
 import { FileSystemStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerRepository } from './customer.repository';
+import { AuthModule } from '../auth/auth.module';
 
 class MyNestJsFormDataConfigService implements NestjsFormDataConfigFactory {
   configAsync():
@@ -22,6 +23,7 @@ class MyNestJsFormDataConfigService implements NestjsFormDataConfigFactory {
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forFeature([CustomerRepository]),
     NestjsFormDataModule.configAsync({
       useClass: MyNestJsFormDataConfigService,

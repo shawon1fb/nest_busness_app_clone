@@ -16,15 +16,15 @@ export class AuthRepository extends Repository<User> {
     console.log('AuthRepository created');
   }
 
-  async validateUserPassword(authCredentialDto: LoginUserDto): Promise<string> {
+  async validateUserPassword(authCredentialDto: LoginUserDto): Promise<User> {
     const { email, password } = authCredentialDto;
     console.log('All ok ---->');
     console.log(email, password);
 
-    const user = await this.findOneOrFail({ where: { id: 2 } });
+    const user = await this.findOneOrFail({ where: { email: email } });
 
     if (user && (await user.validatePassword(password))) {
-      return user.email;
+      return user;
     } else {
       return null;
     }
@@ -45,6 +45,7 @@ export class AuthRepository extends Repository<User> {
     user.mobile = result.mobile;
     user.postalCode = result.postalCode;
     user.address = result.address;
+    user.roles = result.role;
 
     try {
       await user.save();
