@@ -11,9 +11,17 @@ import * as bcrypt from 'bcrypt';
 
 @EntityRepository(User)
 export class AuthRepository extends Repository<User> {
-  async validateUserPassword(authCredentialDto: LoginUserDto) {
+  constructor() {
+    super();
+    console.log('AuthRepository created');
+  }
+
+  async validateUserPassword(authCredentialDto: LoginUserDto): Promise<string> {
     const { email, password } = authCredentialDto;
-    const user = await this.findOne({ email });
+    console.log('All ok ---->');
+    console.log(email, password);
+
+    const user = await this.findOneOrFail({ where: { id: 2 } });
 
     if (user && (await user.validatePassword(password))) {
       return user.email;
@@ -42,7 +50,7 @@ export class AuthRepository extends Repository<User> {
       await user.save();
       return user;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.code === '23505') {
         throw new ConflictException('username already exists');
       } else {
