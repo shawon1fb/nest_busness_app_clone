@@ -42,7 +42,7 @@ export class CustomerController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.User)
+  @Roles(Role.Staff, Role.Admin)
   @Get('all')
   getAll(
     @Paginate() query: PaginateQuery,

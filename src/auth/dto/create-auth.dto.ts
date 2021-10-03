@@ -38,6 +38,6 @@ export class CreateAuthDto {
   @IsNotEmpty()
   password: string;
 
-  @IsIn([Role.User, Role.Admin])
+  @IsIn([Role.Staff, Role.Admin, Role.installer])
   role: Role;
 }

@@ -40,7 +40,7 @@ export class User extends BaseEntity {
   // @Column()
   // avatar?: string;
 
-  @Column({ default: Role.User })
+  @Column({ default: Role.installer })
   roles: Role;
 
   @Exclude()
