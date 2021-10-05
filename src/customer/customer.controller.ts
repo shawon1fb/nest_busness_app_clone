@@ -16,11 +16,12 @@ import { CustomerInputDto } from './dto/customer.dto';
 import { Customer } from './entity/cusromer.model.entity';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { CustomerUpdateDto } from './dto/customer_update_dto';
-import { JwtAuthGuard } from '../auth/guard/jwt-guard';
 import { RolesGuard } from '../auth/guard/roles.guard';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { Role } from '../auth/enum/role.enum';
+import { JwtAuthGuard } from '../auth/guard/jwt-guard';
 
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('customer')
 export class CustomerController {
@@ -41,7 +42,7 @@ export class CustomerController {
     return this.service.customerUpdate(customerDto, id);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles(Role.Staff, Role.Admin)
   @Get('all')
   getAll(
