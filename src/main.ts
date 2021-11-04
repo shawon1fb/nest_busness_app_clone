@@ -9,7 +9,7 @@ async function bootstrap() {
   // app.useGlobalFilters(new ServerErrorExceptionFilter());
   //  app.useGlobalFilters(new HttpExceptionFilter());
 
-  await app.listen(3000);
+  await app.listen(8080);
   console.log(`Application is running on: ${await app.getUrl()}`);
 
   // const server = app.getHttpServer();
